@@ -26,7 +26,7 @@
       state: latest
 
   - name: Install Java Package
-    shell: apt install openjdk-11-jdk
+    shell: apt install openjdk-11-jdk -y
 
   - name: Install Jenkins
     apt:
