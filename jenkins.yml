@@ -1,0 +1,42 @@
+- name: Install Jenkins
+  hosts: localhost
+  become: yes
+  become_user: root
+
+  tasks:
+  - name: Update all the packages
+    apt:
+      name: "*"
+      state: latest
+
+  - name: download jenkins key
+    get_url:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+      dest: /usr/share/keyrings/jenkins-keyring.asc
+
+  - name: Add Jenkins repo
+    apt_repository:
+      repo: deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/
+      state: present
+      filename: jenkins.list
+
+  - name: update all the packages
+    apt:
+      name: "*"
+      state: latest
+
+  - name: Install Java Package
+    shell: apt install openjdk-11-jdk
+
+  - name: Install Jenkins
+    apt:
+      name: jenkins
+      state: present
+
+  - name: To start the Jenkins Service
+    systemd:
+      state: started
+      name: jenkins
+      enabled: yes
+
+...
