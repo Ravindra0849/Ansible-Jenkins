@@ -92,7 +92,7 @@ resource "aws_instance" "Jenkins-Server" {
     subnet_id = aws_subnet.Public.id
     vpc_security_group_ids = [aws_security_group.Sg.id]
     associate_public_ip_address = var.associate_public_ip_address
-    user_data = "${file("jenkins.sh")}"
+    user_data = "${templatefile("jenkins.sh", {})}"
 
     tags = {
         Name = "Jenkins-Server"
